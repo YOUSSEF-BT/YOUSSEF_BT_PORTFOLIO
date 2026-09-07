@@ -443,19 +443,36 @@ export const ProjectDetail = () => {
               </div>
             </div>
 
-            {project.tags && (
-              <div className="glass p-4 md:p-6 rounded-2xl space-y-4 border border-border/50">
-                <h4 className="font-bold">Categories</h4>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="px-1.5 md:px-2 py-1 bg-surface text-xs rounded text-muted-foreground border border-border/50"
-                    >
-                      {tag}
+            {(project.primaryDomain || project.projectFocus?.length > 0) && (
+              <div className="glass p-4 md:p-6 rounded-2xl space-y-5 border border-border/50">
+                {project.primaryDomain && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      Primary Domain
+                    </h4>
+                    <span className="inline-flex px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-semibold border border-primary/30">
+                      {project.primaryDomain}
                     </span>
-                  ))}
-                </div>
+                  </div>
+                )}
+
+                {project.projectFocus?.length > 0 && (
+                  <div className="space-y-3 pt-4 border-t border-border/50">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      Project Focus
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.projectFocus.map((focus) => (
+                        <span
+                          key={focus}
+                          className="px-2.5 py-1 bg-surface text-xs rounded-full text-muted-foreground border border-border/50"
+                        >
+                          {focus}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 

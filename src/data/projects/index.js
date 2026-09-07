@@ -47,13 +47,65 @@ export const projectsData = [
   churnPredictionProject,            // 2025-11-29
 ];
 
+const projectPresentation = {
+  "real-time-road-accident-detection": {
+    primaryDomain: "Computer Vision",
+    projectFocus: ["Deep Learning", "Real-Time Video Analytics", "Road Safety"],
+  },
+  "openlegama-moroccan-legal-ai": {
+    primaryDomain: "GenAI & RAG",
+    projectFocus: ["Controlled RAG", "Legal AI", "Multilingual NLP"],
+  },
+  "8-hybrid-movie-recommender": {
+    primaryDomain: "Machine Learning",
+    projectFocus: [
+      "Recommender Systems",
+      "Collaborative Filtering",
+      "Content-Based Filtering",
+    ],
+  },
+  "ai-powered-bank-fraud-detection-machine-learning-explainable-ai": {
+    primaryDomain: "Machine Learning",
+    projectFocus: ["Fraud Detection", "Explainable AI", "Imbalanced Classification"],
+  },
+  "5-ai-summarizer-2026-03": {
+    primaryDomain: "GenAI & RAG",
+    projectFocus: ["NLP", "Document Processing", "Text Summarization"],
+  },
+  "traffic-mvp-image-processing": {
+    primaryDomain: "Computer Vision",
+    projectFocus: ["Object Detection", "Traffic Analytics", "Real-Time Monitoring"],
+  },
+  "pulsestream-real-time-social-media-intelligence": {
+    primaryDomain: "Machine Learning",
+    projectFocus: ["NLP", "Sentiment Analysis", "Big Data Analytics"],
+  },
+  "customer-churn-mlops-platform": {
+    primaryDomain: "MLOps & Data Engineering",
+    projectFocus: ["ML Orchestration", "Experiment Tracking", "Model Monitoring"],
+  },
+  "2-data-quality-monitoring-2025-12": {
+    primaryDomain: "MLOps & Data Engineering",
+    projectFocus: ["Data Quality", "Observability", "Data Monitoring"],
+  },
+  "1-customer-analytics-churn-prediction-2025-11": {
+    primaryDomain: "Machine Learning",
+    projectFocus: ["Predictive Analytics", "Customer Churn", "Business Intelligence"],
+  },
+};
+
 const legacyProjectSlugAliases = {
   "6-fraud-detection-app": "ai-powered-bank-fraud-detection-machine-learning-explainable-ai",
 };
 
 export const getProjectBySlug = (slug) => {
   const canonicalSlug = legacyProjectSlugAliases[slug] ?? slug;
-  return projectsData.find((p) => p.slug === canonicalSlug);
+  const project = projectsData.find((p) => p.slug === canonicalSlug);
+
+  if (!project) return undefined;
+
+  const presentation = projectPresentation[project.slug];
+  return presentation ? { ...project, ...presentation } : project;
 };
 
 export const getProjectById = (id) => {
