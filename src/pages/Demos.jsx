@@ -4,6 +4,56 @@ import { ArrowLeft, ExternalLink, ChevronRight } from "lucide-react";
 import { projectsData } from "@/data/projects";
 import { resolveAssetUrl } from "@/utils/assetUrl";
 
+const DEMO_CATEGORIES = [
+  "Computer Vision",
+  "GenAI & RAG",
+  "Machine Learning",
+  "MLOps & Data Engineering",
+];
+
+// Demos use a recruiter-friendly category layer that is intentionally separate
+// from each project's full technology tags. Categories answer "what domain is
+// this project in?", while the three display tags show the strongest technical
+// evidence for that specific demo.
+const DEMO_METADATA = {
+  "real-time-road-accident-detection": {
+    category: "Computer Vision",
+    tags: ["YOLOv11", "BoT-SORT", "OpenCV"],
+  },
+  "traffic-mvp-image-processing": {
+    category: "Computer Vision",
+    tags: ["YOLOv8", "OpenCV", "Streamlit"],
+  },
+  "openlegama-moroccan-legal-ai": {
+    category: "GenAI & RAG",
+    tags: ["Controlled RAG", "Legal AI", "NLP"],
+  },
+  "5-ai-summarizer-2026-03": {
+    category: "GenAI & RAG",
+    tags: ["NLP", "Document Processing", "Summarization"],
+  },
+  "ai-powered-bank-fraud-detection-machine-learning-explainable-ai": {
+    category: "Machine Learning",
+    tags: ["Random Forest", "Explainable AI", "Streamlit"],
+  },
+  "1-customer-analytics-churn-prediction-2025-11": {
+    category: "Machine Learning",
+    tags: ["Machine Learning", "Scikit-learn", "Streamlit"],
+  },
+  "8-hybrid-movie-recommender": {
+    category: "Machine Learning",
+    tags: ["Hybrid Recommender", "Collaborative Filtering", "Content-Based"],
+  },
+  "customer-churn-mlops-platform": {
+    category: "MLOps & Data Engineering",
+    tags: ["Airflow", "MLflow", "Docker"],
+  },
+  "2-data-quality-monitoring-2025-12": {
+    category: "MLOps & Data Engineering",
+    tags: ["Data Quality", "Monitoring", "REST API"],
+  },
+};
+
 const getDemoPresentation = (demo) => {
   const isRepository =
     demo.type === "repository" || demo.url.includes("github.com");
@@ -44,24 +94,36 @@ export const Demos = () => {
 
   const allDemos = projectsData
     .filter((project) => project.liveDemo && project.liveDemo.url)
-    .map((project) => ({
-      ...project.liveDemo,
-      projectTitle: project.title,
-      projectSlug: project.slug,
-      projectImage: project.image,
-      projectTags: project.tags,
-    }));
+    .map((project) => {
+      const metadata = DEMO_METADATA[project.slug];
+
+      return {
+        ...project.liveDemo,
+        projectTitle: project.title,
+        projectSlug: project.slug,
+        projectImage: project.image,
+        projectCategory: metadata?.category ?? "Other",
+        displayTags: metadata?.tags ?? project.tags?.slice(0, 3) ?? [],
+      };
+    });
+
+  const categoryCounts = DEMO_CATEGORIES.reduce((counts, category) => {
+    counts[category] = allDemos.filter(
+      (demo) => demo.projectCategory === category,
+    ).length;
+    return counts;
+  }, {});
 
   const categories = [
     "All",
-    ...new Set(allDemos.flatMap((demo) => demo.projectTags || [])),
+    ...DEMO_CATEGORIES.filter((category) => categoryCounts[category] > 0),
   ];
 
   const filteredDemos =
     selectedCategory === "All"
       ? allDemos
-      : allDemos.filter((demo) =>
-          demo.projectTags?.includes(selectedCategory),
+      : allDemos.filter(
+          (demo) => demo.projectCategory === selectedCategory,
         );
 
   return (
@@ -86,27 +148,50 @@ export const Demos = () => {
               expertise.
             </span>
           </h1>
-          <p className="text-sm md:text-base text-muted-foreground animate-fade-in animation-delay-200">
-            Interactive applications, video demonstrations, and repository-based
-            project showcases.
+          <p className="text-sm md:text-base text-muted-foreground animate-fade-in animation-delay-200 max-w-2xl">
+            Explore {allDemos.length} live, video, and repository-based project
+            demonstrations across Computer Vision, GenAI & RAG, Machine
+            Learning, and MLOps & Data Engineering.
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-6 md:mb-8 animate-fade-in animation-delay-300">
-          {categories.map((category) => (
-            <button
-              key={category}
-              type="button"
-              onClick={() => setSelectedCategory(category)}
-              className={`px-3 md:px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedCategory === category
-                  ? "bg-primary text-primary-foreground"
-                  : "glass hover:bg-primary/10 text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {category === "All" ? "All Demos" : category}
-            </button>
-          ))}
+        <div className="mb-6 md:mb-8 animate-fade-in animation-delay-300">
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => {
+              const count =
+                category === "All" ? allDemos.length : categoryCounts[category];
+              const label = category === "All" ? "All Projects" : category;
+
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  aria-pressed={selectedCategory === category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    selectedCategory === category
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "glass hover:bg-primary/10 text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <span>{label}</span>
+                  <span
+                    className={`min-w-5 h-5 px-1.5 inline-flex items-center justify-center rounded-full text-[11px] font-semibold ${
+                      selectedCategory === category
+                        ? "bg-primary-foreground/15 text-primary-foreground"
+                        : "bg-surface text-muted-foreground border border-border/50"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <p className="mt-3 text-xs text-muted-foreground">
+            Showing {filteredDemos.length} of {allDemos.length} project demos
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
@@ -144,7 +229,10 @@ export const Demos = () => {
                 </div>
 
                 <div className="p-4 space-y-3">
-                  <div className="space-y-1">
+                  <div className="space-y-1.5">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+                      {demo.projectCategory}
+                    </p>
                     <h3 className="text-sm font-semibold group-hover:text-primary transition-colors line-clamp-2">
                       {demo.projectTitle}
                     </h3>
@@ -154,7 +242,7 @@ export const Demos = () => {
                   </div>
 
                   <div className="flex flex-wrap gap-1">
-                    {demo.projectTags?.slice(0, 3).map((tag) => (
+                    {demo.displayTags.map((tag) => (
                       <span
                         key={tag}
                         className="px-2 py-0.5 bg-surface text-xs rounded-full text-muted-foreground border border-border/50"
