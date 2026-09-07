@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeft, ExternalLink, ChevronRight } from "lucide-react";
 import { projectsData } from "@/data/projects";
 import { resolveAssetUrl } from "@/utils/assetUrl";
@@ -10,6 +10,17 @@ const DEMO_CATEGORIES = [
   "Machine Learning",
   "MLOps & Data Engineering",
 ];
+
+const DEMO_CATEGORY_PARAMS = {
+  "Computer Vision": "computer-vision",
+  "GenAI & RAG": "genai-rag",
+  "Machine Learning": "machine-learning",
+  "MLOps & Data Engineering": "mlops-data-engineering",
+};
+
+const DEMO_PARAM_CATEGORIES = Object.fromEntries(
+  Object.entries(DEMO_CATEGORY_PARAMS).map(([category, param]) => [param, category]),
+);
 
 // Demos use a recruiter-friendly category layer that is intentionally separate
 // from each project's full technology tags. Categories answer "what domain is
@@ -86,7 +97,26 @@ const getDemoPresentation = (demo) => {
 };
 
 export const Demos = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedCategory =
+    DEMO_PARAM_CATEGORIES[searchParams.get("category")] ?? "All";
+
+  const selectCategory = (category) => {
+    const nextParams = new URLSearchParams(searchParams);
+
+    if (category === "All") {
+      nextParams.delete("category");
+    } else {
+      nextParams.set("category", DEMO_CATEGORY_PARAMS[category]);
+    }
+
+    setSearchParams(nextParams, { replace: true });
+  };
+
+  const demosReturnPath =
+    selectedCategory === "All"
+      ? "/demos"
+      : `/demos?category=${DEMO_CATEGORY_PARAMS[selectedCategory]}`;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -167,7 +197,7 @@ export const Demos = () => {
                   key={category}
                   type="button"
                   aria-pressed={selectedCategory === category}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => selectCategory(category)}
                   className={`inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     selectedCategory === category
                       ? "bg-primary text-primary-foreground shadow-sm"
@@ -265,6 +295,7 @@ export const Demos = () => {
 
                     <Link
                       to={`/projects/${demo.projectSlug}`}
+                      state={{ fromDemos: true, returnTo: demosReturnPath }}
                       className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground transition-all"
                     >
                       View Details

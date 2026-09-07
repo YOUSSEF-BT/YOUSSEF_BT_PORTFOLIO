@@ -118,6 +118,10 @@ export const ProjectDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedArchitecture, setSelectedArchitecture] = useState(null);
+  const returnToDemos =
+    location.state?.fromDemos === true &&
+    typeof location.state?.returnTo === "string" &&
+    location.state.returnTo.startsWith("/demos");
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -155,6 +159,11 @@ export const ProjectDetail = () => {
   ].filter(Boolean);
 
   const goBackToProjects = () => {
+    if (returnToDemos) {
+      navigate(location.state.returnTo);
+      return;
+    }
+
     if (location.pathname !== "/") {
       navigate("/");
       setTimeout(() => {
@@ -179,7 +188,7 @@ export const ProjectDetail = () => {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg glass hover:bg-primary/10 hover:text-primary transition-all mb-6 md:mb-8"
         >
           <ArrowLeft className="w-5 h-5" />
-          Back to Projects
+          {returnToDemos ? "Back to Demos" : "Back to Projects"}
         </button>
 
         <div className="max-w-6xl space-y-6 mb-8 md:mb-12">
@@ -580,7 +589,7 @@ export const ProjectDetail = () => {
           </h2>
           <button
             type="button"
-            onClick={() => navigate("/demos")}
+            onClick={() => navigate(returnToDemos ? location.state.returnTo : "/demos")}
             className="group glass p-6 rounded-2xl hover:border-primary/50 transition-all text-left w-full"
           >
             <div className="flex items-center justify-between">

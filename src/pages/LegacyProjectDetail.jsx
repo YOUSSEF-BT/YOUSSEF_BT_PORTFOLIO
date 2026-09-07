@@ -85,6 +85,10 @@ export const ProjectDetail = () => {
   const project = getProjectBySlug(slug);
   const navigate = useNavigate();
   const location = useLocation();
+  const returnToDemos =
+    location.state?.fromDemos === true &&
+    typeof location.state?.returnTo === "string" &&
+    location.state.returnTo.startsWith("/demos");
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -128,6 +132,11 @@ export const ProjectDetail = () => {
         <button
           type="button"
           onClick={() => {
+            if (returnToDemos) {
+              navigate(location.state.returnTo);
+              return;
+            }
+
             if (location.pathname !== "/") {
               navigate("/");
               setTimeout(() => {
@@ -146,7 +155,7 @@ export const ProjectDetail = () => {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg glass hover:bg-primary/10 hover:text-primary transition-all mb-6 md:mb-8"
         >
           <ArrowLeft className="w-5 h-5" />
-          Back to Projects
+          {returnToDemos ? "Back to Demos" : "Back to Projects"}
         </button>
 
         {/* Header */}
@@ -514,7 +523,7 @@ export const ProjectDetail = () => {
           <div className="grid grid-cols-1 gap-6">
             <button
               type="button"
-              onClick={() => navigate("/demos")}
+              onClick={() => navigate(returnToDemos ? location.state.returnTo : "/demos")}
               className="group glass p-6 rounded-2xl hover:border-primary/50 transition-all text-left w-full"
             >
               <div className="flex items-center justify-between">
