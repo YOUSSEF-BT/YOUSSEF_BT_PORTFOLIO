@@ -1,1 +1,1 @@
-Trigger the guarded one-time project classification workflow.
+Trigger the corrected guarded project classification workflow.
