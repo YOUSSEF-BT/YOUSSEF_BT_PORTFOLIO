@@ -1,12 +1,12 @@
 export const fraudDetectionProject = {
   id: 6,
-  slug: "6-fraud-detection-app",
-  title: "Fraud Detection System",
+  slug: "ai-powered-bank-fraud-detection-machine-learning-explainable-ai",
+  title: "AI-Powered Bank Fraud Detection — Machine Learning & Explainable AI",
   description:
     "Machine-learning credit-card fraud detection system built on the Kaggle Credit Card Fraud Detection dataset (284,807 transactions, including 492 fraud cases). Uses a Random Forest model with an interactive Streamlit dashboard for transaction analysis, fraud-risk probabilities, and feature-importance inspection.",
   image: "assets/images/projects/fraud-detection/main.png",
   tags: ["Python", "Machine Learning", "Random Forest", "Fraud Detection"],
-  link: "/projects/6-fraud-detection-app",
+  link: "/projects/ai-powered-bank-fraud-detection-machine-learning-explainable-ai",
   github: "https://github.com/YOUSSEF-BT/AI-Powered-Bank-Fraud-Detection-Machine-Learning-Explainable-AI",
   company: "Personal Project",
   period: "2025-11",
