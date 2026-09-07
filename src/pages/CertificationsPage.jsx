@@ -596,6 +596,16 @@ export const certifications = [
     link: "https://catalog-education.oracle.com/pls/certview/sharebadge?id=7022BC9CA3F2FE2B58B4706AE7646E5212D5D17F87BAA6D5A3E1B137AF38CE50",
     category: "data-science",
   },
+  {
+    id: 114,
+    title: "Oracle Cloud Infrastructure 2026 Certified Architect Associate",
+    issuer: "Oracle",
+    date: "Sep 2026",
+    credentialId: "331188949OCI26CAA",
+    description: "Associate-level certification validating cloud architecture skills across Oracle Cloud Infrastructure, including core compute, networking, storage, identity, security, availability, and resilient solution design.",
+    icon: <Award className="w-6 h-6" />,
+    category: "cloud-architecture",
+  },
 ];
 
 const CERTIFICATION_MONTHS = {
@@ -606,6 +616,7 @@ const CERTIFICATION_MONTHS = {
 // Precise ordering for certificates issued in the same month.
 // This preserves the real recency order requested for the August 2026 additions.
 const certificationRecencyOverrides = {
+  114: Date.UTC(2026, 8, 7),
   113: Date.UTC(2026, 8, 1),
   112: Date.UTC(2026, 7, 30),
   102: Date.UTC(2026, 7, 29),
@@ -642,6 +653,7 @@ export const certificationsNewestFirst = [...certifications].sort(
 const categories = [
   { id: "all", name: "All Certifications" },
   { id: "data-science", name: "Data Science & AI" },
+  { id: "cloud-architecture", name: "Cloud & Architecture" },
   { id: "machine-learning-dl", name: "Machine Learning & Deep Learning" },
   { id: "computer-vision", name: "Computer Vision" },
   { id: "agentic-ai-llms", name: "Agentic AI & LLMs" },
