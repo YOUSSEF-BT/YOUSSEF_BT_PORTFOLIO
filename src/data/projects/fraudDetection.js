@@ -3,11 +3,11 @@ export const fraudDetectionProject = {
   slug: "6-fraud-detection-app",
   title: "Fraud Detection System",
   description:
-    "AI-powered banking fraud detection system achieving 99.96% accuracy. Built comprehensive machine learning solution for identifying fraudulent transactions in real-time with advanced anomaly detection and pattern recognition.",
+    "Machine-learning credit-card fraud detection system built on the Kaggle Credit Card Fraud Detection dataset (284,807 transactions, including 492 fraud cases). Uses a Random Forest model with an interactive Streamlit dashboard for transaction analysis, fraud-risk probabilities, and feature-importance inspection.",
   image: "assets/images/projects/fraud-detection/main.png",
-  tags: ["Python", "Machine Learning", "AI", "Fraud Detection"],
+  tags: ["Python", "Machine Learning", "Random Forest", "Fraud Detection"],
   link: "/projects/6-fraud-detection-app",
-  github: "https://github.com/YOUSSEF-BT/Fraud-detection-app",
+  github: "https://github.com/YOUSSEF-BT/AI-Powered-Bank-Fraud-Detection-Machine-Learning-Explainable-AI",
   company: "Personal Project",
   period: "2025-11",
   location: "Morocco",
@@ -15,107 +15,110 @@ export const fraudDetectionProject = {
   overview: {
     architectureImage: "assets/architecture/Fraud Detection System.png",
     keyContributions: [
-      "Developed AI-powered fraud detection system with 99.96% accuracy",
-      "Implemented advanced anomaly detection algorithms",
-      "Created real-time transaction monitoring and alerting",
-      "Built pattern recognition for fraudulent behavior identification",
-      "Optimized model for high-precision fraud detection",
+      "Built a credit-card fraud detection workflow around a Random Forest classifier",
+      "Worked with the Kaggle dataset of 284,807 transactions and 492 fraud cases",
+      "Created an interactive Streamlit dashboard for transaction analysis",
+      "Added transaction testing with fraud/normal probability outputs",
+      "Visualized feature importance to make model behavior easier to inspect",
     ],
   },
   problemStatement: {
     title: "Banking Fraud Challenge",
     description:
-      "Financial institutions need robust systems to detect fraudulent transactions in real-time to prevent financial losses and protect customers.",
+      "Credit-card fraud detection is a highly imbalanced binary-classification problem where fraudulent transactions represent only a very small fraction of the available data. The objective is to identify suspicious transactions while keeping the model understandable and practical to test.",
     challenges: [
-      "Achieving high accuracy in fraud detection",
-      "Real-time processing of transaction data",
-      "Handling imbalanced datasets with few fraud cases",
-      "Minimizing false positives while catching fraud",
-      "Scalable system for high-volume transactions",
+      "Handling extreme class imbalance",
+      "Detecting rare fraudulent transactions",
+      "Providing interpretable model outputs",
+      "Allowing interactive transaction-level testing",
+      "Keeping the workflow reproducible with a public benchmark dataset",
     ],
   },
   solution:
-    "Built AI-powered fraud detection system combining advanced ML algorithms, real-time processing, and pattern recognition for 99.96% accuracy.",
+    "Implemented a Random Forest-based fraud detection workflow using the public Kaggle credit-card fraud dataset, together with a Streamlit interface for dataset exploration, transaction testing, prediction probabilities, and feature-importance analysis.",
   keyAchievements: [
-    "Achieved 99.96% precision, 99.8% recall, 99.88% F1-score, and 99.99% AUC-ROC",
-    "Detected 492 out of 492 fraudulent transactions",
-    "Analyzed 284,807 total transactions with extreme class imbalance (0.1727% fraud rate)",
-    "Built interactive Streamlit dashboard for real-time fraud analysis",
-    "Created transaction testing tool and feature importance visualization",
+    "Reported 99.96% model accuracy in the original project evaluation",
+    "Analyzed 284,807 transactions containing 492 fraud cases (0.1727% fraud rate)",
+    "Built an interactive Streamlit dashboard for fraud analysis",
+    "Added transaction-level testing with class predictions and probability scores",
+    "Created feature-importance visualizations for model interpretation",
   ],
   techStack: [
-    "Python", "Streamlit", "Scikit-learn", "Machine Learning",
-    "Random Forest", "Data Visualization", "Banking Security"
+    "Python",
+    "Streamlit",
+    "Scikit-learn",
+    "Random Forest",
+    "Pandas",
+    "NumPy",
+    "Matplotlib",
+    "Seaborn",
+    "Joblib",
   ],
   modules: [
     {
       id: 1,
       name: "Fraud Detection Model",
-      description: "Advanced ML models for fraud detection with ensemble methods.",
-      details: "Implemented ensemble of XGBoost, Random Forest, and Neural Networks with hyperparameter optimization for maximum accuracy.",
+      description: "Random Forest classifier used for binary fraud detection.",
+      details:
+        "The public project implementation uses scikit-learn and a serialized Random Forest model to classify credit-card transactions and expose prediction probabilities.",
       metrics: {
-        accuracy: "99.96%",
-        models: "Ensemble",
-        optimization: "Hyperparameter",
-        precision: "High",
+        model: "Random Forest",
+        task: "Binary Classification",
+        output: "Class + Probability",
+        dataset: "Kaggle Credit Card Fraud",
       },
     },
     {
       id: 2,
-      name: "Real-time Monitoring",
-      description: "Real-time transaction monitoring and alerting system.",
-      details: "Built real-time processing pipeline for transaction analysis with instant fraud alerts and risk scoring.",
+      name: "Interactive Monitoring Dashboard",
+      description: "Streamlit dashboard for transaction analysis and model inspection.",
+      details:
+        "The dashboard provides dataset statistics, fraud-rate monitoring, transaction testing, fraud probabilities, and feature-importance analysis.",
       metrics: {
-        processing: "Real-time",
-        alerts: "Instant",
-        scoring: "Risk-based",
-        latency: "Low",
+        interface: "Streamlit",
+        testing: "Interactive",
+        probabilities: "predict_proba",
+        explainability: "Feature Importance",
       },
     },
   ],
   dataset: {
-    name: "Banking Transaction Dataset",
-    source: "Synthetic banking transaction data with fraud labels",
-    volume: "1,000,000+ transactions with fraud patterns",
-    annotation: "Fraud labels (fraudulent vs legitimate transactions)",
+    name: "Credit Card Fraud Detection",
+    source: "Kaggle — ULB Credit Card Fraud Detection dataset",
+    volume: "284,807 transactions",
+    annotation: "Binary Class label: 0 = legitimate, 1 = fraudulent",
     classes: [
-      { name: "Legitimate", label: "Normal transactions" },
-      { name: "Fraudulent", label: "Fraud transactions" },
-      { name: "High Risk", label: "Suspicious transactions" },
-      { name: "Low Risk", label: "Safe transactions" }
-    ]
+      { name: "Legitimate", label: "Class 0", distribution: "284,315" },
+      { name: "Fraudulent", label: "Class 1", distribution: "492" },
+    ],
   },
   challenges: {
-    accuracy: {
-      description: "Achieving high accuracy in fraud detection while minimizing false positives",
-      solution: "Implemented ensemble methods with careful threshold tuning and cost-sensitive learning"
-    },
-    realTimeProcessing: {
-      description: "Real-time processing of transaction data with sub-100ms latency",
-      solution: "Optimized model inference with model quantization and efficient data pipelines"
-    },
     imbalancedData: {
-      description: "Handling imbalanced datasets with very few fraud cases",
-      solution: "Used SMOTE oversampling, class weights, and anomaly detection techniques"
+      problem: "Extreme class imbalance with only 492 fraud cases among 284,807 transactions",
+      solution:
+        "Made the imbalance explicit in the dashboard and evaluation workflow and exposed transaction-level fraud probabilities rather than relying only on a class label.",
     },
-    falsePositives: {
-      description: "Minimizing false positives while catching fraud to avoid customer inconvenience",
-      solution: "Implemented precision-focused evaluation and adaptive thresholding"
+    interpretability: {
+      problem: "Understanding which anonymized transaction features influence predictions",
+      solution:
+        "Added feature-importance analysis so the strongest Random Forest signals can be inspected directly from the dashboard.",
     },
-    scalability: {
-      description: "Scalable system for high-volume transactions (1000+ per second)",
-      solution: "Built distributed architecture with load balancing and horizontal scaling"
-    }
+    interactiveTesting: {
+      problem: "Making model behavior easy to test without writing code for each transaction",
+      solution:
+        "Built Streamlit transaction-testing flows that display the predicted class together with fraud and normal probabilities.",
+    },
   },
   liveDemo: {
     url: "https://fraud-detection-system-demo.vercel.app",
-    description: "Real-time fraud detection system demo with transaction analysis and risk scoring visualization"
+    description:
+      "Interactive fraud detection demo with transaction analysis and risk-probability visualization.",
   },
   results: {
     accuracy: "99.96%",
-    processing: "Real-time",
-    falsePositives: "Minimal",
-    scalability: "High",
+    transactions: "284,807",
+    fraudCases: "492",
+    fraudRate: "0.1727%",
   },
   team: ["Youssef Bouzit"],
   supervisor: "Self-directed",
