@@ -604,6 +604,7 @@ export const certifications = [
     credentialId: "331188949OCI26CAA",
     description: "Associate-level certification validating cloud architecture skills across Oracle Cloud Infrastructure, including core compute, networking, storage, identity, security, availability, and resilient solution design.",
     icon: <Award className="w-6 h-6" />,
+    link: "https://catalog-education.oracle.com/pls/certview/sharebadge?id=7465F31933EE411B1EB7C5C55C45F6DAD74F72D873EE0DA369F50F835F7F78D6",
     category: "cloud-architecture",
   },
 ];
