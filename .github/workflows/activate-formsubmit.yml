@@ -1,4 +1,4 @@
-name: Test FlowForm
+name: Switch contact form to FlowForm
 
 on:
   push:
@@ -7,17 +7,44 @@ on:
     paths:
       - .github/workflows/activate-formsubmit.yml
 
+permissions:
+  contents: write
+
 jobs:
-  test:
+  update:
     runs-on: ubuntu-latest
     steps:
-      - name: Send FlowForm test
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Switch contact form
+        run: python3 scripts/switch_contact_to_flowform.py
+
+      - name: Remove EmailJS dependency
+        run: npm uninstall @emailjs/browser --package-lock-only --ignore-scripts
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Build portfolio
+        run: npm run build
+
+      - name: Commit changes
         run: |
-          curl -sS -X POST 'https://flowform.to/bt.youssef.369@gmail.com' \
-            -H 'Accept: application/json' \
-            -H 'Content-Type: application/x-www-form-urlencoded' \
-            --data-urlencode 'name=Portfolio setup test' \
-            --data-urlencode 'email=bt.youssef.369@gmail.com' \
-            --data-urlencode 'message=FlowForm delivery test for Youssef Bouzit portfolio.' \
-            --data-urlencode '_subject=Portfolio contact form test' \
-            --data-urlencode 'source=https://youssef-bt.github.io/'
+          git config user.name "YOUSSEF-BT"
+          git config user.email "YOUSSEF-BT@users.noreply.github.com"
+          git add src/sections/Contact.jsx package.json package-lock.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Use FlowForm for portfolio contact messages"
+            git push origin main
+          fi
