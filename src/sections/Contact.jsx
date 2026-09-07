@@ -10,7 +10,6 @@ import {
 import { Button } from "@/components/Button";
 import { FIVERR_PROFILE_URL } from "@/components/FiverrLogo";
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { useLanguage } from "@/context/LanguageContext";
 
 const contactInfo = [
@@ -82,26 +81,32 @@ export const Contact = () => {
     setSubmitStatus({ type: null, message: "" });
 
     try {
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      const payload = new URLSearchParams({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        _replyto: formData.email,
+        _subject: `Portfolio message from ${formData.name}`,
+        source: window.location.href,
+      });
 
-      if (!serviceId || !templateId || !publicKey) {
-        throw new Error(
-          "EmailJS configuration is missing. Please check your environment variables."
-        );
-      }
-
-      await emailjs.send(
-        serviceId,
-        templateId,
+      const response = await fetch(
+        "https://flowform.to/bt.youssef.369@gmail.com",
         {
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-        },
-        publicKey
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: payload.toString(),
+        }
       );
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || data.success !== true) {
+        throw new Error(data.message || "Unable to send message.");
+      }
 
       setSubmitStatus({
         type: "success",
@@ -109,7 +114,7 @@ export const Contact = () => {
       });
       setFormData({ name: "", email: "", message: "" });
     } catch (err) {
-      console.error("EmailJS error:", err);
+      console.error("Contact form error:", err);
       setSubmitStatus({
         type: "error",
         message: t("contact.error"),
