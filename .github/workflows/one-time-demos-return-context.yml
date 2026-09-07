@@ -1,0 +1,43 @@
+name: One-time demos return-context fix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/one_time_demos_return_context_fix.py"
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply guarded UX patch
+        run: python3 scripts/one_time_demos_return_context_fix.py
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund --prefer-offline
+
+      - name: Verify production build
+        run: npm run build
+
+      - name: Commit verified UX changes
+        run: |
+          git config user.name "YOUSSEF-BT"
+          git config user.email "YOUSSEF-BT@users.noreply.github.com"
+          git add src/pages/Demos.jsx src/pages/OpenLegaMaProjectDetail.jsx src/pages/LegacyProjectDetail.jsx
+          git commit -m "Preserve demo category when returning from project details"
+          git push origin main
