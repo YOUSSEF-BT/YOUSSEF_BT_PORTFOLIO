@@ -47,8 +47,13 @@ export const projectsData = [
   churnPredictionProject,            // 2025-11-29
 ];
 
+const legacyProjectSlugAliases = {
+  "6-fraud-detection-app": "ai-powered-bank-fraud-detection-machine-learning-explainable-ai",
+};
+
 export const getProjectBySlug = (slug) => {
-  return projectsData.find((p) => p.slug === slug);
+  const canonicalSlug = legacyProjectSlugAliases[slug] ?? slug;
+  return projectsData.find((p) => p.slug === canonicalSlug);
 };
 
 export const getProjectById = (id) => {
