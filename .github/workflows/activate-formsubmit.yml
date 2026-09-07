@@ -1,0 +1,19 @@
+name: Activate FormSubmit
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/activate-formsubmit.yml
+
+jobs:
+  activate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger FormSubmit activation
+        run: |
+          curl -sS -X POST 'https://formsubmit.co/ajax/bt.youssef.369@gmail.com' \
+            -H 'Accept: application/json' \
+            -H 'Content-Type: application/json' \
+            --data '{"name":"Portfolio setup test","email":"bt.youssef.369@gmail.com","message":"Activation test for Youssef Bouzit portfolio contact form.","_subject":"Portfolio contact form activation","_template":"table","_captcha":"false","_url":"https://youssef-bt.github.io/"}'
