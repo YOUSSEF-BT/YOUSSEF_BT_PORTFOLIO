@@ -1,5 +1,6 @@
 from pathlib import Path
 
+# One-time guarded patch: add the official Sep 2028 expiry to OCI Architect Associate.
 path = Path("src/pages/CertificationsPage.jsx")
 text = path.read_text()
 old = '''    title: "Oracle Cloud Infrastructure 2026 Certified Architect Associate",\n    issuer: "Oracle",\n    date: "Sep 2026",'''
