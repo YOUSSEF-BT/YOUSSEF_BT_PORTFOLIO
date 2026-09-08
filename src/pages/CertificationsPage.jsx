@@ -600,7 +600,7 @@ export const certifications = [
     id: 114,
     title: "Oracle Cloud Infrastructure 2026 Certified Architect Associate",
     issuer: "Oracle",
-    date: "Sep 2026",
+    date: "Sep 2026 · Expires Sep 2028",
     credentialId: "331188949OCI26CAA",
     description: "Associate-level certification validating cloud architecture skills across Oracle Cloud Infrastructure, including core compute, networking, storage, identity, security, availability, and resilient solution design.",
     icon: <Award className="w-6 h-6" />,
