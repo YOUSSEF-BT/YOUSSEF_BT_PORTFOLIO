@@ -1,0 +1,43 @@
+name: One-time skills evidence reveal fix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/one_time_skills_evidence_reveal_fix.py"
+
+permissions:
+  contents: write
+
+jobs:
+  patch-build-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply guarded evidence reveal patch
+        run: python3 scripts/one_time_skills_evidence_reveal_fix.py
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund --prefer-offline
+
+      - name: Verify production build
+        run: npm run build
+
+      - name: Commit verified evidence interaction
+        run: |
+          git config user.name "YOUSSEF-BT"
+          git config user.email "YOUSSEF-BT@users.noreply.github.com"
+          git add src/pages/Skills.jsx
+          git commit -m "Hide skills evidence until hover or tap"
+          git push origin main
