@@ -343,7 +343,8 @@ export const Skills = () => {
               return (
                 <article
                   key={category.id}
-                  className={`group relative overflow-hidden rounded-2xl border bg-background/55 backdrop-blur-md p-5 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+                  tabIndex={0}
+                  className={`group relative overflow-hidden rounded-2xl border bg-background/55 backdrop-blur-md p-5 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 ${
                     category.featured
                       ? "border-primary/35 shadow-[0_0_0_1px_rgba(45,212,191,0.04)]"
                       : "border-border/60 hover:border-primary/35"
@@ -391,47 +392,17 @@ export const Skills = () => {
                       ))}
                     </div>
 
-                    <div className="mt-5 pt-4 border-t border-border/50">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setExpandedEvidence((current) =>
-                            current === category.id ? null : category.id,
-                          )
-                        }
-                        aria-expanded={isEvidenceExpanded}
-                        aria-controls={`evidence-${category.id}`}
-                        className="flex w-full items-center justify-between gap-3 text-left rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                      >
-                        <span className="flex items-center gap-2">
+                    {/* Desktop: completely hidden at rest, revealed by card hover/focus. */}
+                    <div className="hidden md:block overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-out group-hover:max-h-44 group-hover:opacity-100 group-focus-within:max-h-44 group-focus-within:opacity-100">
+                      <div className="mt-5 pt-4 border-t border-border/50">
+                        <div className="flex items-center gap-2 mb-3">
                           <CheckCircle2 className="w-4 h-4 text-primary" />
-                          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.16em] font-semibold text-muted-foreground group-hover:text-primary transition-colors">
-                            Evidence available
+                          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.16em] font-semibold text-muted-foreground">
+                            Evidence
                           </span>
-                        </span>
+                        </div>
 
-                        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-medium text-muted-foreground/70">
-                          <span className="hidden md:inline">Hover to reveal</span>
-                          <span className="md:hidden">
-                            {isEvidenceExpanded ? "Hide" : "Tap to reveal"}
-                          </span>
-                          <ArrowRight
-                            className={`w-3.5 h-3.5 text-primary transition-transform duration-300 ${
-                              isEvidenceExpanded ? "rotate-90" : ""
-                            } md:group-hover:rotate-90 md:group-focus-within:rotate-90`}
-                          />
-                        </span>
-                      </button>
-
-                      <div
-                        id={`evidence-${category.id}`}
-                        className={`overflow-hidden transition-all duration-300 ease-out ${
-                          isEvidenceExpanded
-                            ? "max-h-40 opacity-100 mt-3 pointer-events-auto"
-                            : "max-h-0 opacity-0 mt-0 pointer-events-none"
-                        } md:group-hover:max-h-40 md:group-hover:opacity-100 md:group-hover:mt-3 md:group-hover:pointer-events-auto md:group-focus-within:max-h-40 md:group-focus-within:opacity-100 md:group-focus-within:mt-3 md:group-focus-within:pointer-events-auto`}
-                      >
-                        <div className="flex flex-wrap gap-2 pt-1">
+                        <div className="flex flex-wrap gap-2">
                           {category.evidence.map((item) =>
                             item.href ? (
                               <a
@@ -456,6 +427,66 @@ export const Skills = () => {
                                     · {item.meta}
                                   </span>
                                 )}
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </Link>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Touch devices: a compact control opens the evidence on demand. */}
+                    <div className="md:hidden mt-4 pt-3 border-t border-border/50">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExpandedEvidence((current) =>
+                            current === category.id ? null : category.id,
+                          )
+                        }
+                        aria-expanded={isEvidenceExpanded}
+                        aria-controls={`evidence-mobile-${category.id}`}
+                        className="flex w-full items-center justify-between gap-3 rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                      >
+                        <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] font-semibold text-muted-foreground">
+                          <CheckCircle2 className="w-4 h-4 text-primary" />
+                          Project evidence
+                        </span>
+                        <ArrowRight
+                          className={`w-3.5 h-3.5 text-primary transition-transform duration-300 ${
+                            isEvidenceExpanded ? "rotate-90" : ""
+                          }`}
+                        />
+                      </button>
+
+                      <div
+                        id={`evidence-mobile-${category.id}`}
+                        className={`overflow-hidden transition-all duration-300 ease-out ${
+                          isEvidenceExpanded
+                            ? "max-h-44 opacity-100 mt-3"
+                            : "max-h-0 opacity-0 mt-0"
+                        }`}
+                      >
+                        <div className="flex flex-wrap gap-2 pt-1">
+                          {category.evidence.map((item) =>
+                            item.href ? (
+                              <a
+                                key={item.label}
+                                href={item.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/10 hover:border-primary/35 transition-all"
+                              >
+                                {item.label}
+                                <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
+                            ) : (
+                              <Link
+                                key={item.label}
+                                to={item.to}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/10 hover:border-primary/35 transition-all"
+                              >
+                                {item.label}
                                 <ArrowRight className="w-3.5 h-3.5" />
                               </Link>
                             ),
