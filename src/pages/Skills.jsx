@@ -236,40 +236,40 @@ export const Skills = () => {
       : skillCategories.filter((category) => category.id === selectedCategory);
 
   return (
-    <div className="min-h-screen overflow-hidden pt-24 md:pt-32 pb-16 md:pb-20">
+    <div className="min-h-screen overflow-hidden pt-20 md:pt-24 pb-14 md:pb-16">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg glass hover:bg-primary/10 hover:text-primary transition-all mb-8 md:mb-10"
+          className="inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg glass hover:bg-primary/10 hover:text-primary transition-all mb-5 md:mb-6"
         >
           <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
           Back Home
         </Link>
 
-        <section className="relative mb-10 md:mb-14">
-          <div className="absolute -top-20 -left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute top-10 right-0 w-60 h-60 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+        <section className="relative mb-6 md:mb-8">
+          <div className="absolute -top-10 -left-10 w-44 h-44 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-4 right-0 w-36 h-36 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="relative max-w-5xl">
+          <div className="relative max-w-6xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-[11px] md:text-xs font-semibold uppercase tracking-[0.18em] animate-fade-in">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               AI Engineering Skills
             </div>
 
-            <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.02] tracking-tight animate-fade-in animation-delay-100">
+            <h1 className="mt-4 max-w-5xl text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-[1.02] tracking-tight animate-fade-in animation-delay-100">
               From models to
               <span className="font-serif italic font-normal text-primary">
                 {" "}intelligent systems.
               </span>
             </h1>
 
-            <p className="mt-5 md:mt-6 max-w-3xl text-sm md:text-lg text-muted-foreground leading-relaxed animate-fade-in animation-delay-200">
+            <p className="mt-4 md:mt-5 max-w-3xl text-sm md:text-base text-muted-foreground leading-relaxed animate-fade-in animation-delay-200">
               A focused view of the technologies and engineering practices I use
               to design, evaluate, deploy, and improve AI products — backed by
               project evidence instead of a generic list of tools.
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-2 animate-fade-in animation-delay-300">
+            <div className="mt-4 flex flex-wrap gap-2 animate-fade-in animation-delay-300">
               {coreSignals.map((signal) => (
                 <span
                   key={signal}
@@ -282,8 +282,8 @@ export const Skills = () => {
           </div>
         </section>
 
-        <section className="mb-10 md:mb-14">
-          <div className="glass rounded-2xl border border-border/50 p-4 md:p-5">
+        <section className="mb-6 md:mb-8">
+          <div className="glass rounded-2xl border border-border/50 p-3.5 md:p-4">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
@@ -328,7 +328,7 @@ export const Skills = () => {
           </div>
         </section>
 
-        <section className="mb-14 md:mb-20">
+        <section className="mb-12 md:mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
             {filteredSkills.map((category, index) => {
               const Icon = category.icon;
