@@ -1,165 +1,226 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Code, Database, Cpu, Server, FileText, Brain, Github, Cpu as CpuIcon, Database as DatabaseIcon, Code2, Layout, Server as ServerIcon, FileText as FileTextIcon } from "lucide-react";
-
-// Technology icons mapping
-const techIcons = {
-  // Programming Languages
-  "Python": <Code2 className="w-5 h-5" />,
-  "R": <Code2 className="w-5 h-5" />,
-  "MATLAB": <CpuIcon className="w-5 h-5" />,
-  "Java": <Code2 className="w-5 h-5" />,
-  "C": <Code2 className="w-5 h-5" />,
-  "C#": <Code2 className="w-5 h-5" />,
-  ".NET": <Code2 className="w-5 h-5" />,
-  "JavaScript": <Code2 className="w-5 h-5" />,
-  "PHP": <Code2 className="w-5 h-5" />,
-  "Laravel": <Code2 className="w-5 h-5" />,
-  "HTML5": <Layout className="w-5 h-5" />,
-  "CSS3": <Layout className="w-5 h-5" />,
-  "Bootstrap": <Layout className="w-5 h-5" />,
-  "XML": <Code2 className="w-5 h-5" />,
-  "TypeScript": <Code2 className="w-5 h-5" />,
-  "Node.js": <ServerIcon className="w-5 h-5" />,
-
-  // Data & AI
-  "Machine Learning": <Brain className="w-5 h-5" />,
-  "Deep Learning": <Brain className="w-5 h-5" />,
-  "AI": <Brain className="w-5 h-5" />,
-  "Signal Processing": <CpuIcon className="w-5 h-5" />,
-  "Image Processing": <CpuIcon className="w-5 h-5" />,
-  "Streamlit": <Code2 className="w-5 h-5" />,
-  "TensorFlow": <Brain className="w-5 h-5" />,
-  "Scikit-learn": <Brain className="w-5 h-5" />,
-  "XGBoost": <Brain className="w-5 h-5" />,
-  "NLP": <Brain className="w-5 h-5" />,
-
-  // Data Analysis & BI
-  "SQL": <DatabaseIcon className="w-5 h-5" />,
-  "MySQL": <DatabaseIcon className="w-5 h-5" />,
-  "PL/SQL": <DatabaseIcon className="w-5 h-5" />,
-  "Oracle Database": <DatabaseIcon className="w-5 h-5" />,
-  "Tableau": <Layout className="w-5 h-5" />,
-  "Power BI": <Layout className="w-5 h-5" />,
-  "Excel": <FileTextIcon className="w-5 h-5" />,
-  "Hadoop": <ServerIcon className="w-5 h-5" />,
-  "LabVIEW": <CpuIcon className="w-5 h-5" />,
-
-  // DevOps & Infrastructure
-  "Docker": <ServerIcon className="w-5 h-5" />,
-  "Linux": <ServerIcon className="w-5 h-5" />,
-  "Ubuntu": <ServerIcon className="w-5 h-5" />,
-  "Red Hat": <ServerIcon className="w-5 h-5" />,
-  "Windows Admin": <ServerIcon className="w-5 h-5" />,
-  "Web Scraping": <Code2 className="w-5 h-5" />,
-
-  // Office & Documentation
-  "Microsoft Word": <FileTextIcon className="w-5 h-5" />,
-  "Microsoft Excel": <FileTextIcon className="w-5 h-5" />,
-
-  // AI Prompt Engineering
-  "Prompt Engineering": <Brain className="w-5 h-5" />,
-  "ChatGPT": <Brain className="w-5 h-5" />,
-  "DeepSeek": <Brain className="w-5 h-5" />,
-  "Claude": <Brain className="w-5 h-5" />,
-
-  // Default icon for unknown technologies
-  "default": <Code className="w-5 h-5" />,
-};
+import {
+  ArrowLeft,
+  ArrowRight,
+  Bot,
+  Brain,
+  CheckCircle2,
+  Code2,
+  Cpu,
+  Database,
+  ExternalLink,
+  Eye,
+  Github,
+  Server,
+} from "lucide-react";
 
 const skillCategories = [
   {
-    id: "data-science",
-    name: "Data Science & AI",
-    icon: <Brain className="w-6 h-6" />,
-    color: "from-blue-500 to-purple-600",
+    id: "machine-learning",
+    name: "Machine Learning",
+    shortName: "ML",
+    eyebrow: "Predictive AI",
+    icon: Brain,
+    description:
+      "From structured data and feature engineering to evaluated, explainable predictive models.",
     skills: [
-      "Python",
-      "R",
-      "MATLAB",
-      "Machine Learning",
+      "Scikit-learn",
+      "Pandas",
+      "NumPy",
+      "Feature Engineering",
+      "Model Evaluation",
+      "Cross-Validation",
+      "Classification",
+      "Imbalanced Learning",
+      "Explainable AI",
+    ],
+    evidence: [
+      {
+        label: "Bank Fraud Detection",
+        to: "/projects/ai-powered-bank-fraud-detection-machine-learning-explainable-ai",
+      },
+      {
+        label: "Customer Churn Prediction",
+        to: "/projects/1-customer-analytics-churn-prediction-2025-11",
+      },
+    ],
+  },
+  {
+    id: "computer-vision",
+    name: "Computer Vision & Deep Learning",
+    shortName: "Computer Vision",
+    eyebrow: "Visual Intelligence",
+    icon: Eye,
+    featured: true,
+    description:
+      "Real-time detection and tracking pipelines built for video understanding, safety, and traffic analytics.",
+    skills: [
+      "YOLOv11",
+      "YOLOv8",
+      "OpenCV",
+      "BoT-SORT",
+      "Object Detection",
+      "Multi-Object Tracking",
+      "Real-Time Video",
       "Deep Learning",
-      "AI",
-      "Signal Processing",
-      "Image Processing",
-      "Streamlit",
+      "Roboflow",
+    ],
+    evidence: [
+      {
+        label: "Real-Time Road Accident Detection",
+        to: "/projects/real-time-road-accident-detection",
+      },
+      {
+        label: "Traffic MVP",
+        to: "/projects/traffic-mvp-image-processing",
+      },
     ],
   },
   {
-    id: "prompt-engineering",
-    name: "AI Prompt Engineering",
-    icon: <Cpu className="w-6 h-6" />,
-    color: "from-orange-500 to-red-600",
-    skills: ["Prompt Engineering", "ChatGPT", "DeepSeek", "Claude"],
-  },
-  {
-    id: "data-analysis",
-    name: "Data Analysis & BI",
-    icon: <Database className="w-6 h-6" />,
-    color: "from-green-500 to-teal-600",
+    id: "genai-rag",
+    name: "Generative AI & RAG",
+    shortName: "GenAI & RAG",
+    eyebrow: "Grounded LLM Systems",
+    icon: Cpu,
+    featured: true,
+    description:
+      "Grounded LLM applications that retrieve evidence, control context, validate citations, and abstain when evidence is insufficient.",
     skills: [
-      "SQL",
-      "MySQL",
-      "PL/SQL",
-      "Oracle Database",
-      "Tableau",
-      "Power BI",
-      "Excel",
-      "Hadoop",
-      "LabVIEW",
+      "RAG",
+      "LLM Applications",
+      "Embeddings",
+      "Semantic Search",
+      "Document Processing",
+      "Prompt Engineering",
+      "Context Engineering",
+      "NLP",
+      "Evaluation",
+    ],
+    evidence: [
+      {
+        label: "OpenLegaMa — Moroccan Legal AI",
+        to: "/projects/openlegama-moroccan-legal-ai",
+      },
+      {
+        label: "AI Document Summarizer",
+        to: "/projects/5-ai-summarizer-2026-03",
+      },
     ],
   },
   {
-    id: "programming",
-    name: "Programming & Development",
-    icon: <Code className="w-6 h-6" />,
-    color: "from-yellow-500 to-orange-600",
+    id: "agentic-ai",
+    name: "Agentic AI & LLM Orchestration",
+    shortName: "Agentic AI",
+    eyebrow: "Tool-Connected AI",
+    icon: Bot,
+    description:
+      "Design patterns for AI systems that reason across state, tools, workflows, approvals, and reliability boundaries.",
     skills: [
-      "Java",
-      "JEE",
-      "C",
-      "C#",
-      ".NET",
-      "JavaScript",
-      "PHP",
-      "Laravel",
-      "HTML5",
-      "CSS3",
-      "Bootstrap",
-      "XML",
+      "Agent Workflows",
+      "Tool Calling",
+      "Human-in-the-Loop",
+      "State Management",
+      "Model Context Protocol",
+      "Guardrails",
+      "Evaluation",
+      "API Integration",
+    ],
+    evidence: [
+      {
+        label: "Agentic AI & LLM Certifications",
+        to: "/certifications",
+        meta: "Training evidence",
+      },
     ],
   },
   {
-    id: "devops",
-    name: "DevOps & Infrastructure",
-    icon: <Server className="w-6 h-6" />,
-    color: "from-cyan-500 to-blue-600",
+    id: "mlops-data",
+    name: "MLOps & Data Engineering",
+    shortName: "MLOps & Data",
+    eyebrow: "Ship & Operate",
+    icon: Server,
+    description:
+      "Reproducible ML workflows with orchestration, experiment tracking, containers, monitoring, and data-quality controls.",
     skills: [
       "Docker",
-      "Linux",
-      "Ubuntu",
-      "Red Hat",
-      "Windows Admin",
-      "Web Scraping",
+      "Apache Airflow",
+      "MLflow",
+      "PostgreSQL",
+      "MinIO",
+      "Model Monitoring",
+      "Experiment Tracking",
+      "Data Quality",
+      "CI/CD",
+    ],
+    evidence: [
+      {
+        label: "Customer MLOps Pipeline",
+        to: "/projects/customer-churn-mlops-platform",
+      },
+      {
+        label: "Data Quality Monitoring",
+        to: "/projects/2-data-quality-monitoring-2025-12",
+      },
     ],
   },
   {
-    id: "office",
-    name: "Office & Documentation",
-    icon: <FileText className="w-6 h-6" />,
-    color: "from-indigo-500 to-purple-600",
-    skills: ["Microsoft Word", "Microsoft Excel"],
+    id: "backend",
+    name: "Backend & AI Engineering",
+    shortName: "Backend",
+    eyebrow: "Production Foundations",
+    icon: Code2,
+    description:
+      "The engineering layer around AI systems: Python services, APIs, databases, version control, and deployment-ready interfaces.",
+    skills: [
+      "Python",
+      "FastAPI",
+      "REST APIs",
+      "SQL",
+      "Git",
+      "GitHub",
+      "Linux",
+      "Streamlit",
+      "TypeScript",
+    ],
+    evidence: [
+      {
+        label: "Explore implementation repositories",
+        href: "https://github.com/YOUSSEF-BT",
+        meta: "GitHub evidence",
+      },
+    ],
   },
 ];
 
-const professionalSkills = [
-  { icon: "🔍", name: "Problem Solving & Analytical Thinking" },
-  { icon: "🤝", name: "Team Collaboration & Communication" },
-  { icon: "📊", name: "Project Management & Documentation" },
-  { icon: "🚀", name: "Continuous Learning & Adaptability" },
-  { icon: "💡", name: "Innovation & Creative Thinking" },
-  { icon: "⏱️", name: "Time Management & Organization" },
-  { icon: "🎯", name: "Prompt Engineering" },
+const engineeringWorkflow = [
+  {
+    step: "01",
+    title: "Build",
+    description: "Translate a real problem into a measurable AI system.",
+  },
+  {
+    step: "02",
+    title: "Evaluate",
+    description: "Measure quality, failure modes, retrieval, or model behavior.",
+  },
+  {
+    step: "03",
+    title: "Deploy",
+    description: "Package the system behind usable applications and workflows.",
+  },
+  {
+    step: "04",
+    title: "Monitor",
+    description: "Keep performance, evidence, and operational limits visible.",
+  },
+];
+
+const coreSignals = [
+  "AI/ML Engineering",
+  "Computer Vision",
+  "RAG & LLM Systems",
+  "MLOps & Data Engineering",
 ];
 
 export const Skills = () => {
@@ -172,151 +233,304 @@ export const Skills = () => {
   const filteredSkills =
     selectedCategory === "all"
       ? skillCategories
-      : skillCategories.filter((cat) => cat.id === selectedCategory);
+      : skillCategories.filter((category) => category.id === selectedCategory);
 
   return (
     <div className="min-h-screen overflow-hidden pt-24 md:pt-32 pb-16 md:pb-20">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        {/* Back Button */}
         <Link
           to="/"
-          className="inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg glass hover:bg-primary/10 hover:text-primary transition-all mb-6 md:mb-8"
+          className="inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg glass hover:bg-primary/10 hover:text-primary transition-all mb-8 md:mb-10"
         >
           <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
           Back Home
         </Link>
 
-        {/* Header */}
-        <div className="max-w-3xl mb-10 md:mb-16">
-          <span className="text-secondary-foreground text-xs md:text-sm font-medium tracking-wider uppercase animate-fade-in">
-            💻 Technical Skills
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mt-4 mb-4 md:mb-6 animate-fade-in animation-delay-100 text-secondary-foreground">
-            My
-            <span className="font-serif italic font-normal text-foreground">
-              {" "}
-              expertise.
-            </span>
-          </h1>
-          <p className="text-sm md:text-base text-muted-foreground animate-fade-in animation-delay-200">
-            A comprehensive overview of my technical skills and professional
-            expertise across multiple domains.
-          </p>
-        </div>
+        <section className="relative mb-10 md:mb-14">
+          <div className="absolute -top-20 -left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-10 right-0 w-60 h-60 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap gap-2 mb-8 md:mb-12 animate-fade-in animation-delay-300">
-          <button
-            onClick={() => setSelectedCategory("all")}
-            className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all ${
-              selectedCategory === "all"
-                ? "bg-primary text-primary-foreground"
-                : "glass hover:bg-primary/10 text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            All Skills
-          </button>
-          {skillCategories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all ${
-                selectedCategory === cat.id
-                  ? "bg-primary text-primary-foreground"
-                  : "glass hover:bg-primary/10 text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
+          <div className="relative max-w-5xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-[11px] md:text-xs font-semibold uppercase tracking-[0.18em] animate-fade-in">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              AI Engineering Skills
+            </div>
 
-        {/* Skills Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-10 md:mb-16">
-          {filteredSkills.map((category, idx) => (
-            <div
-              key={category.id}
-              className="group glass rounded-2xl overflow-hidden animate-fade-in hover:border-primary/50 transition-all duration-300"
-              style={{ animationDelay: `${(idx + 1) * 100}ms` }}
-            >
-              {/* Header */}
-              <div
-                className={`bg-gradient-to-r ${category.color} p-4 md:p-6 text-white group-hover:opacity-90 transition-opacity`}
-              >
-                <div className="flex items-center gap-2 md:gap-3">
-                  <div className="p-1.5 md:p-2 bg-white/20 rounded-lg backdrop-blur-sm group-hover:scale-110 transition-transform">
-                    {category.icon}
-                  </div>
-                  <h3 className="text-base md:text-xl font-bold">{category.name}</h3>
-                </div>
+            <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.02] tracking-tight animate-fade-in animation-delay-100">
+              From models to
+              <span className="font-serif italic font-normal text-primary">
+                {" "}intelligent systems.
+              </span>
+            </h1>
+
+            <p className="mt-5 md:mt-6 max-w-3xl text-sm md:text-lg text-muted-foreground leading-relaxed animate-fade-in animation-delay-200">
+              A focused view of the technologies and engineering practices I use
+              to design, evaluate, deploy, and improve AI products — backed by
+              project evidence instead of a generic list of tools.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2 animate-fade-in animation-delay-300">
+              {coreSignals.map((signal) => (
+                <span
+                  key={signal}
+                  className="px-3 py-1.5 rounded-full border border-border/70 bg-background/60 backdrop-blur-sm text-xs md:text-sm font-medium text-foreground/80"
+                >
+                  {signal}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mb-10 md:mb-14">
+          <div className="glass rounded-2xl border border-border/50 p-4 md:p-5">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                  Capability map
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Filter the stack by the part of the AI lifecycle you want to inspect.
+                </p>
               </div>
 
-              {/* Skills List */}
-              <div className="p-4 md:p-6">
-                <div className="flex flex-wrap gap-1.5 md:gap-2">
-                  {category.skills.map((skill, skillIdx) => (
-                    <span
-                      key={skillIdx}
-                      className="inline-flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1 md:py-1.5 bg-primary/10 text-primary rounded-full text-[10px] md:text-sm font-medium border border-primary/30 hover:bg-primary/20 hover:scale-105 transition-all"
-                    >
-                      {techIcons[skill] || techIcons["default"]}
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setSelectedCategory("all")}
+                  aria-pressed={selectedCategory === "all"}
+                  className={`px-3.5 py-2 rounded-full text-xs md:text-sm font-semibold transition-all ${
+                    selectedCategory === "all"
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "border border-border/70 bg-background/40 text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                  }`}
+                >
+                  All Expertise
+                </button>
+
+                {skillCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    type="button"
+                    onClick={() => setSelectedCategory(category.id)}
+                    aria-pressed={selectedCategory === category.id}
+                    className={`px-3.5 py-2 rounded-full text-xs md:text-sm font-semibold transition-all ${
+                      selectedCategory === category.id
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "border border-border/70 bg-background/40 text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                    }`}
+                  >
+                    {category.shortName}
+                  </button>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        </section>
 
-        {/* Professional Skills Section */}
-        <div className="mb-10 md:mb-16">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 animate-fade-in">
-            Professional Skills
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-            {professionalSkills.map((skill, idx) => (
+        <section className="mb-14 md:mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+            {filteredSkills.map((category, index) => {
+              const Icon = category.icon;
+
+              return (
+                <article
+                  key={category.id}
+                  className={`group relative overflow-hidden rounded-2xl border bg-background/55 backdrop-blur-md p-5 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+                    category.featured
+                      ? "border-primary/35 shadow-[0_0_0_1px_rgba(45,212,191,0.04)]"
+                      : "border-border/60 hover:border-primary/35"
+                  }`}
+                  style={{ animationDelay: `${index * 70}ms` }}
+                >
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute -right-16 -top-16 w-40 h-40 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
+
+                  <div className="relative">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-3 md:gap-4">
+                        <div className="flex h-11 w-11 md:h-12 md:w-12 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary group-hover:scale-105 transition-transform">
+                          <Icon className="w-5 h-5 md:w-6 md:h-6" />
+                        </div>
+
+                        <div>
+                          <p className="text-[10px] md:text-[11px] uppercase tracking-[0.16em] font-semibold text-primary">
+                            {category.eyebrow}
+                          </p>
+                          <h2 className="mt-1 text-xl md:text-2xl font-bold leading-tight">
+                            {category.name}
+                          </h2>
+                        </div>
+                      </div>
+
+                      <span className="hidden sm:inline-flex text-xs font-mono text-muted-foreground/60">
+                        0{skillCategories.findIndex((item) => item.id === category.id) + 1}
+                      </span>
+                    </div>
+
+                    <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed">
+                      {category.description}
+                    </p>
+
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {category.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-surface/60 px-2.5 py-1.5 text-[11px] md:text-xs font-medium text-foreground/80 transition-colors hover:border-primary/35 hover:text-primary"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary/80" />
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 pt-5 border-t border-border/50">
+                      <div className="flex items-center gap-2 mb-3">
+                        <CheckCircle2 className="w-4 h-4 text-primary" />
+                        <span className="text-[10px] md:text-[11px] uppercase tracking-[0.16em] font-semibold text-muted-foreground">
+                          Evidence
+                        </span>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {category.evidence.map((item) =>
+                          item.href ? (
+                            <a
+                              key={item.label}
+                              href={item.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs md:text-sm font-semibold text-primary hover:bg-primary/10 hover:border-primary/35 transition-all"
+                            >
+                              {item.label}
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                          ) : (
+                            <Link
+                              key={item.label}
+                              to={item.to}
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs md:text-sm font-semibold text-primary hover:bg-primary/10 hover:border-primary/35 transition-all"
+                            >
+                              {item.label}
+                              {item.meta && (
+                                <span className="hidden md:inline text-[10px] font-medium text-muted-foreground">
+                                  · {item.meta}
+                                </span>
+                              )}
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </Link>
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="mb-14 md:mb-20">
+          <div className="mb-6 md:mb-8 max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+              Engineering workflow
+            </p>
+            <h2 className="mt-2 text-2xl md:text-4xl font-bold">
+              Skills are useful when they connect into a
+              <span className="font-serif italic font-normal text-foreground">
+                {" "}working system.
+              </span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4">
+            {engineeringWorkflow.map((item, index) => (
               <div
-                key={idx}
-                className="group glass p-4 md:p-6 rounded-2xl border border-border/50 hover:border-primary/50 transition-all duration-300 animate-fade-in hover:scale-105"
-                style={{ animationDelay: `${(idx + 1) * 50}ms` }}
+                key={item.step}
+                className="relative glass rounded-2xl border border-border/50 p-5 md:p-6 overflow-hidden group hover:border-primary/35 transition-all"
               >
-                <div className="flex items-center gap-2 md:gap-3">
-                  <span className="text-2xl md:text-3xl group-hover:scale-110 transition-transform">{skill.icon}</span>
-                  <p className="text-sm md:text-base font-semibold text-foreground group-hover:text-primary transition-colors">{skill.name}</p>
-                </div>
+                {index < engineeringWorkflow.length - 1 && (
+                  <ArrowRight className="hidden xl:block absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40 z-10" />
+                )}
+                <span className="text-xs font-mono text-primary">{item.step}</span>
+                <h3 className="mt-3 text-lg md:text-xl font-bold group-hover:text-primary transition-colors">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                  {item.description}
+                </p>
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* GitHub Link */}
-        <div className="group glass p-6 md:p-8 rounded-2xl border border-border/50 text-center animate-fade-in hover:border-primary/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 group-hover:text-primary transition-colors">Check My GitHub</h3>
-          <p className="text-sm md:text-base text-muted-foreground mb-4 md:mb-6">
-            Explore my repositories and projects to see my skills in action.
-          </p>
-          <a
-            href="https://github.com/YOUSSEF-BT"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all font-semibold text-sm md:text-base group-hover:gap-3"
-          >
-            <svg
-              className="w-4 h-4 md:w-5 md:h-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                clipRule="evenodd"
-              />
-            </svg>
-            View GitHub Profile
-          </a>
-        </div>
+        <section className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-4 md:gap-6">
+          <div className="glass rounded-2xl border border-border/50 p-6 md:p-8">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary border border-primary/20">
+                <Database className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-[0.16em] font-semibold text-primary">
+                  Engineering foundations
+                </p>
+                <h2 className="text-xl md:text-2xl font-bold">Built around fundamentals.</h2>
+              </div>
+            </div>
+
+            <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {["Python", "SQL", "Git & GitHub", "Linux"].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-xl border border-border/60 bg-background/45 px-3 py-3 text-center text-xs md:text-sm font-semibold"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-5 text-sm text-muted-foreground leading-relaxed">
+              I keep the fundamentals visible because strong AI systems still depend
+              on reliable data handling, readable code, reproducible workflows, and
+              interfaces that other people can actually use.
+            </p>
+          </div>
+
+          <div className="relative overflow-hidden rounded-2xl border border-primary/25 bg-primary/5 p-6 md:p-8">
+            <div className="absolute -right-16 -bottom-16 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative">
+              <p className="text-xs uppercase tracking-[0.16em] font-semibold text-primary">
+                See the evidence
+              </p>
+              <h2 className="mt-2 text-xl md:text-2xl font-bold">
+                Explore the systems behind the stack.
+              </h2>
+              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                The project pages show architectures, implementation choices,
+                measured results, limitations, demos, and repositories.
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link
+                  to="/demos"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-all"
+                >
+                  Explore Demos
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <a
+                  href="https://github.com/YOUSSEF-BT"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-primary/25 bg-background/55 text-sm font-semibold hover:border-primary/50 hover:text-primary transition-all"
+                >
+                  <Github className="w-4 h-4" />
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
