@@ -3,6 +3,12 @@ from pathlib import Path
 path = Path("src/pages/Skills.jsx")
 text = path.read_text()
 
+
+def replace_once(text: str, old: str, new: str, label: str) -> str:
+    if old not in text:
+        raise SystemExit(f"{label}: source pattern not found; aborting safely")
+    return text.replace(old, new, 1)
+
 replacements = [
     (
         'className="min-h-screen overflow-hidden pt-24 md:pt-32 pb-16 md:pb-20"',
@@ -57,15 +63,12 @@ replacements = [
     (
         '<section className="mb-14 md:mb-20">',
         '<section className="mb-12 md:mb-16">',
-        "skills grid spacing",
+        "first skills grid spacing",
     ),
 ]
 
 for old, new, label in replacements:
-    count = text.count(old)
-    if count != 1:
-        raise SystemExit(f"{label}: expected 1 match, found {count}; aborting safely")
-    text = text.replace(old, new, 1)
+    text = replace_once(text, old, new, label)
 
 checks = [
     'pt-20 md:pt-24',
@@ -81,5 +84,3 @@ for check in checks:
 
 path.write_text(text)
 print("Skills page vertical spacing compacted successfully.")
-
-# Trigger the guarded one-time workflow after it exists.
