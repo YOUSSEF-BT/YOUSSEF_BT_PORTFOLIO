@@ -67,7 +67,6 @@ for old, new, label in replacements:
         raise SystemExit(f"{label}: expected 1 match, found {count}; aborting safely")
     text = text.replace(old, new, 1)
 
-# Sanity checks for the compact first viewport.
 checks = [
     'pt-20 md:pt-24',
     'mb-5 md:mb-6',
@@ -82,3 +81,5 @@ for check in checks:
 
 path.write_text(text)
 print("Skills page vertical spacing compacted successfully.")
+
+# Trigger the guarded one-time workflow after it exists.
