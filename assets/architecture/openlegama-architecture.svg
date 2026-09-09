@@ -1,0 +1,145 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1400" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111F"/>
+      <stop offset="1" stop-color="#0C2430"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.32"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0L10 5L0 10Z" fill="#6F93A8"/>
+    </marker>
+    <style>
+      .title { font: 700 34px Arial, Helvetica, sans-serif; fill: #F8FAFC; }
+      .subtitle { font: 400 16px Arial, Helvetica, sans-serif; fill: #9FB2C1; }
+      .boxTitle { font: 700 18px Arial, Helvetica, sans-serif; fill: #F8FAFC; }
+      .boxText { font: 400 14px Arial, Helvetica, sans-serif; fill: #B8C7D2; }
+      .small { font: 400 13px Arial, Helvetica, sans-serif; fill: #8EA3B5; }
+      .metric { font: 700 14px Arial, Helvetica, sans-serif; fill: #E7C778; }
+      .line { stroke: #6F93A8; stroke-width: 3; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1400" height="900" rx="28" fill="url(#bg)"/>
+  <circle cx="1230" cy="90" r="270" fill="#0D9488" fill-opacity="0.07"/>
+  <circle cx="120" cy="830" r="300" fill="#C89B3C" fill-opacity="0.06"/>
+
+  <text x="70" y="66" class="title">OpenLegaMa — Controlled Moroccan Legal RAG Architecture</text>
+  <text x="70" y="98" class="subtitle">A guarded pipeline that separates intent routing, official-source retrieval, evidence validation, and answer generation.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="150" width="190" height="116" rx="22" fill="#12263A" stroke="#4F6B84" stroke-width="2"/>
+    <text x="155" y="190" text-anchor="middle" class="boxTitle">User</text>
+    <text x="155" y="220" text-anchor="middle" class="boxText">French • Arabic • English</text>
+    <text x="155" y="246" text-anchor="middle" class="small">Question or legal reference</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="300" y="150" width="210" height="116" rx="22" fill="#15312F" stroke="#2DD4BF" stroke-width="2"/>
+    <text x="405" y="190" text-anchor="middle" class="boxTitle">Next.js Interface</text>
+    <text x="405" y="220" text-anchor="middle" class="boxText">Assistant • Search • Codes</text>
+    <text x="405" y="246" text-anchor="middle" class="small">Reader • Coverage dashboard</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="560" y="150" width="210" height="116" rx="22" fill="#172638" stroke="#5F86B4" stroke-width="2"/>
+    <text x="665" y="190" text-anchor="middle" class="boxTitle">Chat API</text>
+    <text x="665" y="220" text-anchor="middle" class="boxText">Request validation</text>
+    <text x="665" y="246" text-anchor="middle" class="small">Limits • IDs • sanitization</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="820" y="136" width="250" height="144" rx="24" fill="#2A2416" stroke="#C89B3C" stroke-width="2"/>
+    <text x="945" y="176" text-anchor="middle" class="boxTitle">Language &amp; Query Normalization</text>
+    <text x="945" y="208" text-anchor="middle" class="boxText">Language detection</text>
+    <text x="945" y="234" text-anchor="middle" class="boxText">Canonical legal intent</text>
+    <text x="945" y="260" text-anchor="middle" class="small">Domain and jurisdiction signals</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1120" y="128" width="230" height="160" rx="24" fill="#20283A" stroke="#7085B8" stroke-width="2"/>
+    <text x="1235" y="168" text-anchor="middle" class="boxTitle">Semantic Intent Router</text>
+    <text x="1235" y="200" text-anchor="middle" class="boxText">9 controlled routes</text>
+    <text x="1235" y="226" text-anchor="middle" class="small">General • Clarification</text>
+    <text x="1235" y="250" text-anchor="middle" class="small">Exact reference • Legal RAG</text>
+    <text x="1235" y="274" text-anchor="middle" class="small">Corpus gap • Safety • Out of scope</text>
+  </g>
+
+  <path d="M250 208H300" class="line"/>
+  <path d="M510 208H560" class="line"/>
+  <path d="M770 208H820" class="line"/>
+  <path d="M1070 208H1120" class="line"/>
+
+  <g filter="url(#shadow)">
+    <rect x="80" y="370" width="250" height="150" rx="22" fill="#26301F" stroke="#A8C75B" stroke-width="2"/>
+    <text x="205" y="410" text-anchor="middle" class="boxTitle">Exact Reference Validation</text>
+    <text x="205" y="444" text-anchor="middle" class="boxText">Verify law and article existence</text>
+    <text x="205" y="470" text-anchor="middle" class="boxText">Reject fabricated references</text>
+    <text x="205" y="496" text-anchor="middle" class="small">No substitute citation</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="385" y="350" width="280" height="190" rx="24" fill="#152F34" stroke="#33B8B0" stroke-width="2"/>
+    <text x="525" y="392" text-anchor="middle" class="boxTitle">Active Official Legal Corpus</text>
+    <text x="525" y="428" text-anchor="middle" class="metric">30 active legal texts</text>
+    <text x="525" y="458" text-anchor="middle" class="metric">7,708 indexed articles</text>
+    <text x="525" y="488" text-anchor="middle" class="metric">27 represented legal domains</text>
+    <text x="525" y="516" text-anchor="middle" class="small">Adala • SGG • Bulletin Officiel metadata</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="720" y="350" width="270" height="190" rx="24" fill="#20283A" stroke="#7085B8" stroke-width="2"/>
+    <text x="855" y="392" text-anchor="middle" class="boxTitle">Controlled Retrieval</text>
+    <text x="855" y="428" text-anchor="middle" class="boxText">Exact lookup or hybrid retrieval</text>
+    <text x="855" y="456" text-anchor="middle" class="boxText">Article ranking</text>
+    <text x="855" y="484" text-anchor="middle" class="boxText">Document relevance guard</text>
+    <text x="855" y="512" text-anchor="middle" class="boxText">Article relevance guard</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1045" y="370" width="260" height="150" rx="22" fill="#312418" stroke="#D58A45" stroke-width="2"/>
+    <text x="1175" y="410" text-anchor="middle" class="boxTitle">Grounded Generation</text>
+    <text x="1175" y="444" text-anchor="middle" class="boxText">Groq SDK provider</text>
+    <text x="1175" y="470" text-anchor="middle" class="boxText">Accepted context only</text>
+    <text x="1175" y="496" text-anchor="middle" class="small">Bounded conversation history</text>
+  </g>
+
+  <path d="M1235 288V330H205V370" class="line"/>
+  <path d="M1235 288V330H525V350" class="line"/>
+  <path d="M330 445H385" class="line"/>
+  <path d="M665 445H720" class="line"/>
+  <path d="M990 445H1045" class="line"/>
+
+  <g filter="url(#shadow)">
+    <rect x="130" y="650" width="310" height="150" rx="24" fill="#1D3024" stroke="#62B879" stroke-width="2"/>
+    <text x="285" y="692" text-anchor="middle" class="boxTitle">Claim-to-Citation Validation</text>
+    <text x="285" y="728" text-anchor="middle" class="boxText">Legal claim ↔ accepted evidence</text>
+    <text x="285" y="754" text-anchor="middle" class="boxText">C1 • C2 • official source cards</text>
+    <text x="285" y="780" text-anchor="middle" class="small">Unsupported citations are rejected</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="545" y="650" width="310" height="150" rx="24" fill="#342B18" stroke="#C89B3C" stroke-width="2"/>
+    <text x="700" y="692" text-anchor="middle" class="boxTitle">Controlled Abstention</text>
+    <text x="700" y="728" text-anchor="middle" class="boxText">CORPUS_GAP</text>
+    <text x="700" y="754" text-anchor="middle" class="boxText">Clarification required</text>
+    <text x="700" y="780" text-anchor="middle" class="small">No unsupported legal conclusion</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="960" y="650" width="310" height="150" rx="24" fill="#15312F" stroke="#2DD4BF" stroke-width="2"/>
+    <text x="1115" y="692" text-anchor="middle" class="boxTitle">Structured User Answer</text>
+    <text x="1115" y="728" text-anchor="middle" class="boxText">Sourced legal explanation</text>
+    <text x="1115" y="754" text-anchor="middle" class="boxText">Official references and excerpts</text>
+    <text x="1115" y="780" text-anchor="middle" class="small">Visible limitations and provenance</text>
+  </g>
+
+  <path d="M1175 520V590H285V650" class="line"/>
+  <path d="M1175 520V590H700V650" class="line"/>
+  <path d="M440 725H545" class="line"/>
+  <path d="M855 725H960" class="line"/>
+
+  <rect x="70" y="840" width="1260" height="34" rx="17" fill="#122131" stroke="#2E4558"/>
+  <text x="700" y="862" text-anchor="middle" class="small">Quality gates: 143 automated tests • 610 curated benchmark cases • 120 independent holdout cases • TypeScript, ESLint, corpus checks, and production build passing</text>
+</svg>
