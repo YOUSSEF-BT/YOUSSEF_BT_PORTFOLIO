@@ -225,10 +225,16 @@ const coreSignals = [
 
 export const Skills = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [expandedEvidence, setExpandedEvidence] = useState(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+    setExpandedEvidence(null);
+  };
 
   const filteredSkills =
     selectedCategory === "all"
@@ -297,7 +303,7 @@ export const Skills = () => {
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  onClick={() => setSelectedCategory("all")}
+                  onClick={() => handleCategoryChange("all")}
                   aria-pressed={selectedCategory === "all"}
                   className={`px-3.5 py-2 rounded-full text-xs md:text-sm font-semibold transition-all ${
                     selectedCategory === "all"
@@ -312,7 +318,7 @@ export const Skills = () => {
                   <button
                     key={category.id}
                     type="button"
-                    onClick={() => setSelectedCategory(category.id)}
+                    onClick={() => handleCategoryChange(category.id)}
                     aria-pressed={selectedCategory === category.id}
                     className={`px-3.5 py-2 rounded-full text-xs md:text-sm font-semibold transition-all ${
                       selectedCategory === category.id
@@ -332,6 +338,7 @@ export const Skills = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
             {filteredSkills.map((category, index) => {
               const Icon = category.icon;
+              const isEvidenceExpanded = expandedEvidence === category.id;
 
               return (
                 <article
@@ -384,43 +391,76 @@ export const Skills = () => {
                       ))}
                     </div>
 
-                    <div className="mt-6 pt-5 border-t border-border/50">
-                      <div className="flex items-center gap-2 mb-3">
-                        <CheckCircle2 className="w-4 h-4 text-primary" />
-                        <span className="text-[10px] md:text-[11px] uppercase tracking-[0.16em] font-semibold text-muted-foreground">
-                          Evidence
+                    <div className="mt-5 pt-4 border-t border-border/50">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExpandedEvidence((current) =>
+                            current === category.id ? null : category.id,
+                          )
+                        }
+                        aria-expanded={isEvidenceExpanded}
+                        aria-controls={`evidence-${category.id}`}
+                        className="flex w-full items-center justify-between gap-3 text-left rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      >
+                        <span className="flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-primary" />
+                          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.16em] font-semibold text-muted-foreground group-hover:text-primary transition-colors">
+                            Evidence available
+                          </span>
                         </span>
-                      </div>
 
-                      <div className="flex flex-wrap gap-2">
-                        {category.evidence.map((item) =>
-                          item.href ? (
-                            <a
-                              key={item.label}
-                              href={item.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs md:text-sm font-semibold text-primary hover:bg-primary/10 hover:border-primary/35 transition-all"
-                            >
-                              {item.label}
-                              <ExternalLink className="w-3.5 h-3.5" />
-                            </a>
-                          ) : (
-                            <Link
-                              key={item.label}
-                              to={item.to}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs md:text-sm font-semibold text-primary hover:bg-primary/10 hover:border-primary/35 transition-all"
-                            >
-                              {item.label}
-                              {item.meta && (
-                                <span className="hidden md:inline text-[10px] font-medium text-muted-foreground">
-                                  · {item.meta}
-                                </span>
-                              )}
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </Link>
-                          ),
-                        )}
+                        <span className="flex items-center gap-2 text-[10px] md:text-[11px] font-medium text-muted-foreground/70">
+                          <span className="hidden md:inline">Hover to reveal</span>
+                          <span className="md:hidden">
+                            {isEvidenceExpanded ? "Hide" : "Tap to reveal"}
+                          </span>
+                          <ArrowRight
+                            className={`w-3.5 h-3.5 text-primary transition-transform duration-300 ${
+                              isEvidenceExpanded ? "rotate-90" : ""
+                            } md:group-hover:rotate-90 md:group-focus-within:rotate-90`}
+                          />
+                        </span>
+                      </button>
+
+                      <div
+                        id={`evidence-${category.id}`}
+                        className={`overflow-hidden transition-all duration-300 ease-out ${
+                          isEvidenceExpanded
+                            ? "max-h-40 opacity-100 mt-3 pointer-events-auto"
+                            : "max-h-0 opacity-0 mt-0 pointer-events-none"
+                        } md:group-hover:max-h-40 md:group-hover:opacity-100 md:group-hover:mt-3 md:group-hover:pointer-events-auto md:group-focus-within:max-h-40 md:group-focus-within:opacity-100 md:group-focus-within:mt-3 md:group-focus-within:pointer-events-auto`}
+                      >
+                        <div className="flex flex-wrap gap-2 pt-1">
+                          {category.evidence.map((item) =>
+                            item.href ? (
+                              <a
+                                key={item.label}
+                                href={item.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs md:text-sm font-semibold text-primary hover:bg-primary/10 hover:border-primary/35 transition-all"
+                              >
+                                {item.label}
+                                <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
+                            ) : (
+                              <Link
+                                key={item.label}
+                                to={item.to}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs md:text-sm font-semibold text-primary hover:bg-primary/10 hover:border-primary/35 transition-all"
+                              >
+                                {item.label}
+                                {item.meta && (
+                                  <span className="hidden md:inline text-[10px] font-medium text-muted-foreground">
+                                    · {item.meta}
+                                  </span>
+                                )}
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </Link>
+                            ),
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
